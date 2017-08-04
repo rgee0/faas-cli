@@ -321,7 +321,7 @@ func copyFiles(src string, destination string, recursive bool) {
 
 			//did the call ask to recurse into sub directories?
 			if recursive == true {
-				//call copyTree to copy the contents
+				//call copyFiles to copy the contents
 				copyFiles(src+"/"+file.Name(), newDir, true)
 			}
 		}
