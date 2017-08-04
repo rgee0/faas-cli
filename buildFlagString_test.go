@@ -12,8 +12,8 @@ func TestBuildFlagString(t *testing.T) {
 	}{
 		{false, false, "", "", ""},
 		{false, false, "", "192.168.0.1", "--build-arg https_proxy=192.168.0.1 "},
-		{false, false, "192.168.0.1", "", "--build-arg http_proxy=192.168.0.1 "},
-		{false, false, "192.168.0.1", "192.168.0.1", "--build-arg http_proxy=192.168.0.1 --build-arg https_proxy=192.168.0.1 "},
+		{false, false, "92.168.0.1", "", "--build-arg http_proxy=192.168.0.1 "},
+		{false, false, "92.168.0.1", "192.168.0.1", "--build-arg http_proxy=192.168.0.1 --build-arg https_proxy=192.168.0.1 "},
 		{false, true, "", "", "--squash "},
 		{false, true, "", "192.168.0.1", "--squash --build-arg https_proxy=192.168.0.1 "},
 		{false, true, "192.168.0.1", "", "--squash --build-arg http_proxy=192.168.0.1 "},
