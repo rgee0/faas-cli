@@ -69,15 +69,15 @@ func createBuildTemplate(functionName string, handler string, language string) s
 	}
 
 	// Drop in directory tree from template
-	copyFiles("./template/"+language, tempPath, true)
+	copyFiles("./template/"+language, tempPath)
 
 	// Overlay in user-function
-	copyFiles(handler, tempPath+"function/", true)
+	copyFiles(handler, tempPath+"function/")
 
 	return tempPath
 }
 
-func copyFiles(src string, destination string, recursive bool) {
+func copyFiles(src string, destination string) {
 
 	files, err := ioutil.ReadDir(src)
 	if err != nil {
@@ -92,7 +92,7 @@ func copyFiles(src string, destination string, recursive bool) {
 
 		} else {
 			//make new destination dir
-			newDir := destination + file.Name() + "/"
+			newDir := fmt.Sprintf("%s%s/", destination, file.Name())
 
 			if !pathExists(newDir) {
 
@@ -104,11 +104,8 @@ func copyFiles(src string, destination string, recursive bool) {
 				}
 			}
 
-			//did the call ask to recurse into sub directories?
-			if recursive == true {
-				//call copyFiles to copy the contents
-				copyFiles(src+"/"+file.Name(), newDir, true)
-			}
+			//call copyFiles to copy the contents
+			copyFiles(src+"/"+file.Name(), newDir)
 		}
 	}
 }
