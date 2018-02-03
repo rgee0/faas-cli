@@ -31,8 +31,6 @@ const (
 )
 
 func init() {
-	// Setup flags that are used by multiple commands (variables defined in faas.go)
-	storeCmd.Flags().StringVarP(&gateway, "gateway", "g", defaultGateway, "Gateway URL starting with http(s)://")
 
 	// Setup flags used by store command
 	storeListCmd.Flags().StringVarP(&storeAddress, "url", "u", defaultStore, "Alternative URL starting with http(s)://")
@@ -42,6 +40,7 @@ func init() {
 	storeInspectCmd.Flags().BoolVarP(&verboseDescription, "verbose", "v", false, "Verbose output for the field values")
 
 	// Setup flags that are used only by deploy command (variables defined above)
+	storeDeployCmd.Flags().StringVarP(&gateway, "gateway", "g", defaultGateway, "Gateway URL starting with http(s)://")
 	storeDeployCmd.Flags().StringArrayVarP(&storeDeployFlags.envvarOpts, "env", "e", []string{}, "Adds one or more environment variables to the defined ones by store (ENVVAR=VALUE)")
 	storeDeployCmd.Flags().StringArrayVarP(&storeDeployFlags.labelOpts, "label", "l", []string{}, "Set one or more label (LABEL=VALUE)")
 	storeDeployCmd.Flags().BoolVar(&storeDeployFlags.replace, "replace", false, "Replace any existing function")
