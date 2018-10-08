@@ -5,6 +5,7 @@ package commands
 
 import (
 	"bytes"
+	"fmt"
 	"os"
 	"reflect"
 	"regexp"
@@ -317,6 +318,34 @@ func Test_templateParsingyYAMLEnvs(t *testing.T) {
 		Environment: map[string]string{
 			"alex": "ellis",
 		},
+		EnvironmentFile: []string{
+			"alex.yml",
+			"ellis.yml",
+		},
+		Secrets: []string{
+			"alex",
+			"ellis",
+		},
+		Constraints: &[]string{
+			"node.platform.os == linux",
+		},
+		Labels: &map[string]string{
+			"alex": "ellis",
+		},
+		Limits: &stack.FunctionResources{
+			Memory: "40Mi",
+			CPU:    "100m",
+		},
+		Requests: &stack.FunctionResources{
+			Memory: "30Mi",
+			CPU:    "200m",
+		},
+		Annotations: &map[string]string{
+			"topic":  "kafka.payments-received",
+			"people": "burt_and_ernie",
+		},
+		ReadOnlyRootFilesystem: false,
+		SkipBuild:              false,
 	}
 
 	services = &stack.Services{
@@ -340,6 +369,7 @@ func Test_templateParsingyYAMLEnvs(t *testing.T) {
 	if !(strings.Contains(yamlStr, "environment")) || !(strings.Contains(yamlStr, "alex")) || !(strings.Contains(yamlStr, "ellis")) {
 		t.Fatalf("Missing elements in the yaml, expected all of: '%s', '%s' & '%s' \n Found:\n %s \n", "environment", "alex", "ellis", yamlStr)
 	}
+	fmt.Printf("%s", yamlStr)
 
 }
 func Test_duplicateFunctionName(t *testing.T) {

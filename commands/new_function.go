@@ -37,6 +37,68 @@ functions:
     lang: {{ $function.Language }}
     handler: {{ $function.Handler }}
     image: {{ $function.Image }}
+	{{- if $function.ReadOnlyRootFilesystem -}}
+	readonly_root_filesystem: true
+	{{- end }}
+	{{- if $function.SkipBuild -}}
+	skip_build: true
+	{{- end }}
+    {{- if $function.Environment }}
+    environment:
+    {{- range $envKey, $envVal := $function.Environment }}
+      {{ $envKey }}: {{ $envVal}}
+    {{- end }}
+    {{- end }}
+	{{ if $function.EnvironmentFile -}}
+	environment_file:
+    {{- range $envFile := $function.EnvironmentFile}}
+      - {{ $envFile }}
+    {{- end }}
+    {{- end }}
+	{{ if $function.Secrets -}}
+	secrets:
+    {{- range $secret := $function.Secrets}}
+      - {{ $secret }}
+    {{- end }}
+    {{- end }}
+	{{ if $function.Constraints -}}
+	constraints:
+    {{- range $constraint := $function.Constraints}}
+      - "{{ $constraint }}"
+    {{- end }}
+    {{- end }}
+	{{ if $function.Labels -}}
+	labels:
+    {{- range $labelKey, $labelVal := $function.Labels}}
+      {{ $labelKey }}: {{ $labelVal}}
+    {{- end }}
+    {{- end }}
+	{{ if $function.Limits -}}
+	limits:{{ with $function.Limits }}
+      {{ if .Memory -}}
+	  memory: {{ .Memory }}
+	  {{- end }}
+	  {{ if .CPU -}}
+	  cpu: {{ .CPU }}
+	  {{- end }}
+    {{- end }}
+	{{- end }}
+	{{ if $function.Requests -}}
+	requests:{{ with $function.Requests }}
+      {{ if .Memory -}}
+	  memory: {{ .Memory }}
+	  {{- end }}
+	  {{ if .CPU -}}
+	  cpu: {{ .CPU }}
+	  {{- end }}
+    {{- end }}
+	{{- end }}
+	{{ if $function.Annotations -}}
+    annotations:
+    {{- range $annoKey, $annoVal := $function.Annotations}}
+      {{ $annoKey }}: "{{ $annoVal}}"
+    {{- end }}
+    {{- end }}
 {{- end }}
 `
 
